@@ -62,7 +62,7 @@ export default {
         const {data:res}= await this.$http.post("login",this.loginForm);
         if (res.meta.status !== 200) return this.$message.error("登录失败！")
           this.$message.success("登录成功")
-        console.log(res.data.token)
+        //console.log(res.data.token)
         window.sessionStorage.setItem("token",res.data.token)
         this.$router.push('./home')
       })
@@ -70,7 +70,7 @@ export default {
   }
 }
 </script>
-<style lang = "less" scoped >
+<style lang = "less" scoped>
 .login_container {
   background-color: #55a532;
   height: 100%;
