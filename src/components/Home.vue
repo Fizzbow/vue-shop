@@ -9,23 +9,40 @@
       </el-header>
 
       <el-container>
-        <el-aside width="200px">
+        <el-aside :width="isCollapse ? '42px':'200px'">
+          <div class="toggle-button" @click="toggleCollapse">|||</div>
+        <!--侧边栏菜单区域-->
             <el-menu
                 background-color="#0D162F"
                 text-color="#fff"
-                active-text-color="#2EA043">
+                active-text-color="#2EA043"
+                unique-opened :collapse = "isCollapse"
+                :collapse-transition="false"
+                router :default-active="activePath"
+                >
               <el-submenu :index="item.id+''"  v-for="item in menuList" :key="item.id">
                 <template slot="title">
-                  <i class="iconsObj[item.id]"></i>
+                  <i :class="iconsObj[item.id]"></i>
                   <span>{{ item.authName }}</span>
                 </template>
-                <el-menu-item-group>
-                  <el-menu-item :index="'/'+subItem.path" v-for="subItem in item.children" :key="subItem.id">{{ subItem.authName }}</el-menu-item>
-                </el-menu-item-group>
-                </el-submenu>
+<!--                二级菜单-->
+                  <el-menu-item
+                      v-for="subItem in item.children"
+                      :index="'/'+subItem.path"
+                      :key="subItem.id"
+                      @click="saveNavState('/'+subItem.path)"
+                  >
+                  <template slot="title">
+                    <i class="el-icon-menu"></i>
+                    <span>{{ subItem.authName }}</span>
+                  </template>
+                  </el-menu-item>
+              </el-submenu>
             </el-menu>
         </el-aside>
-        <el-main>Main</el-main>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
 
     </el-container>
@@ -43,14 +60,15 @@ export  default {
         '145': 'iconfont icon-baobiao'
       },
       isCollapse:false,
+      //被激活的链接地址
       activePath:''
     }
   },
   created() {
     this.getMenuList()
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods:{
-
     //清空token，重定向到login页面
     logout() {
       window.sessionStorage.clear()
@@ -61,6 +79,14 @@ export  default {
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
       this.menuList = res.data;
       console.log(res);
+    },
+    toggleCollapse() {
+        this.isCollapse = !this.isCollapse;
+    },
+    //保存链接的激活状态
+    saveNavState(activePath) {
+      window.sessionStorage.setItem('activePath',activePath)
+      this.activePath = activePath
     }
   }
 }
@@ -69,6 +95,7 @@ export  default {
 <style lang="less" scoped>
 .home-container {
   height: 100%;
+  font-weight: 700;
 }
 .el-header {
   background-color: #0E1832;
@@ -88,5 +115,18 @@ export  default {
 }
 .el-main {
   background-color: #161B22;
+}
+.iconfont {
+  margin-right: 10px;
+}
+.toggle-button {
+  background-color: #00112D;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 24px;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.3rem;
+  cursor: pointer;
 }
 </style>
