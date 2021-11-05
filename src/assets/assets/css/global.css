@@ -10,3 +10,6 @@ body,
 .el-breadcrumb {
   margin-bottom: 15px;
 }
+.el-scrollbar__wrap {
+  height: 200px;
+}
