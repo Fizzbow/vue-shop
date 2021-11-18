@@ -13,3 +13,6 @@ body,
 .el-scrollbar__wrap {
   height: 200px;
 }
+.ql-editor {
+  min-width: 300px;
+}
