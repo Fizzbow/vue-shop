@@ -44,3 +44,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 商品管理
 ## 订单管理
 ## 数据统计
+
+## 优化
+- 生成打包报告
+- 第三方库启用CDN
+- Element-UI组件按需加载
+- 路由懒加载
+- 首页内容定制
