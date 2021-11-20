@@ -40,6 +40,7 @@ Vue.filter('dataFormate',function (originVal){
 Vue.use(VueQuillEditor)
 
 
+
 new Vue({
   router,
   render: h => h(App)
